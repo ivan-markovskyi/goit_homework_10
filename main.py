@@ -1,28 +1,27 @@
 from collections import UserDict
 
 
-class Name:
-    def __init__(self, name):
-        self.name = name
-
-
-class Phone:
-    def __init__(self, value):
+class Field:
+    def __init__(self, value) -> None:
         self.value = value
 
 
-class Record:
-    def __init__(self, name: Name, *args):
-        self.name = name
-        self.phones = list(args)
+class Name(Field):
+    pass
 
-    def add_phone(self, phone):
-        phone_num = Phone(phone)
-        if phone_num not in self.phones:
-            self.phones.append(phone_num)
+
+class Phone(Field):
+    pass
+
+
+class Record:
+    def __init__(self, name: Name, phone: Phone = None):
+        self.name = name
+        self.phones = list()
+        if phone:
+            self.phones.append(phone)
 
     def change_phone(self, old_phone, new_phone):
-        # new_phones = list(map(lambda x: x.replace(old_phone, new_phone), self.phones))
         index = self.phones.index(old_phone)
         self.phones[index] = new_phone
 
@@ -32,12 +31,8 @@ class Record:
 
 class AddressBook(UserDict):
     def add_record(self, record: Record):
-        self.data[record.name.name] = record
+        self.data[record.name.value] = record
         return self.data
-
-
-class Field:
-    pass
 
 
 if __name__ == "__main__":
